@@ -17,24 +17,41 @@ class neural_network:
 		y, N = self.ff(x)
 		return sum(y*(1-y)*w*v)
 
-	def E(self, x):
-		y, N = self.ff(x); Nd = self.ff_d(x);
-		return (x*Nd+N-3*x-x**2)
-
-	def dv(self, x):
-		w = self.w; b = self.b; v = self.v; E = self.E
+	def N_v(self, x):
 		y, N = self.ff(x)
-		return E(x)*y*(x*w*(1-y)+1)
+		return y
+
+	def N_w(self, x):
+		y, N = self.ff(x)
+		return self.v*y*(1-y)*x
+
+	def N_b(self, x):
+		y, N = self.ff(x)
+		return self.v*y*(1-y)
+
+	def Nd_v(self, x):
+		y, N = self.ff(x)
+		return self.w*y*(1-y)
+
+	def Nd_w(self, x):
+		y, N = self.ff(x)
+		return x*self.w*y*(1-y)*(1-2*y)
+
+	def Nd_b(self, x):
+		y, N = self.ff(x)
+		return self.v*self.w*y*(1-y)*(1-2*y)
+
+	def E(self, x):
+		# depends on ODE
+		
+	def dv(self, x):
+		# depends on ODE
 
 	def dw(self, x):
-		w = self.w; b = self.b; v = self.v; E = self.E;
-		y, N = self.ff(x)
-		return E(x)*x*y*(1-y)*(x*w*(1-2*y)+v)
-
+		# depends on ODE
+		
 	def db(self, x):
-		w = self.w; b = self.b; v = self.v; E = self.E;
-		y, N = self.ff(x)
-		return E(x)*v*y*(1-y)*(x*w*(1-2*y)+1)
+		# depends on ODE
 
 	def update(self, x):
 		lr = self.learning_rate; 
@@ -44,7 +61,6 @@ class neural_network:
 
 	def sol(self, x):
 		y, N = self.ff(x)
-		# return x*N
 		return x*N
 
 	def sol_der(self, x):
